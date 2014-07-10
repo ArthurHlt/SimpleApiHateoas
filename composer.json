@@ -1,5 +1,5 @@
 {
-    "name": "ArthurH/SimpleApiHateoas",
+    "name": "arthurh/simple-api-hateoas",
     "description": "Easiest api RESTFUL creator implementing hateoas.",
     "keywords": ["api", "restful", "rest", "easy", "hateoas"],
     "minimum-stability": "stable",
