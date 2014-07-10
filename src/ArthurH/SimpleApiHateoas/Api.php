@@ -102,7 +102,9 @@ class Api
             return;
         }
         if (is_object($content)) {
-            $content = serialize($content);
+            $serializer = JMS\Serializer\SerializerBuilder::create()->build();
+            $jsonContent = $serializer->serialize($content, 'json');
+            $content = json_decode($jsonContent);
         }
         if (!is_array($content)) {
             $content = array('data' => $content);
@@ -116,6 +118,7 @@ class Api
         if (isset($_GET['html'])) {
             return '<html><body><pre><code>' . Yaml::dump($content) . '</code></pre></body>';
         }
+        //use this for php version higher or equals than 5.4
         if (PHP_VERSION_ID >= 50400) {
             return json_encode($content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         }

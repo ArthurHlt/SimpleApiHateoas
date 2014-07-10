@@ -14,7 +14,8 @@
         "symfony/yaml": "2.*",
         "php": ">=5.3.2",
         "nikic/fast-route": "v0.1.0",
-        "arhframe/annotations": "0.*"
+        "arhframe/annotations": "0.*",
+        "jms/serializer": "*"
     },
     "autoload": {
         "psr-0": {
