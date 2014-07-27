@@ -37,6 +37,7 @@ class Api
 
     public function apiRun()
     {
+        $this->setRequestScheme();
         Api::populatePutOrDeleteRequest();
         global $methods, $apiBaseRoute, $links;
         $apiBaseRoute = Api::$APIBASEROUTE;
@@ -95,7 +96,16 @@ class Api
             Api::$_DELETE = $postVars;
         }
     }
-
+    public function setRequestScheme(){
+        if(!empty($_SERVER["REQUEST_SCHEME"])){
+            return;
+        }
+        if(!empty($_SERVER["HTTPS"])){
+            $_SERVER["REQUEST_SCHEME"] = 'https';
+        }else{
+            $_SERVER["REQUEST_SCHEME"] = 'http';
+        }
+    }
     public static function format($content, $links = null)
     {
         if ($content === null) {
