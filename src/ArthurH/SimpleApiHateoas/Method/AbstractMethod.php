@@ -164,6 +164,9 @@ abstract class  AbstractMethod
         $describes = $this->describe;
         $this->describe = array();
         foreach ($describes as $value => $type) {
+            if (is_array($type)) {
+                continue;
+            }
             $type = strtoupper($type);
             if ($type == 'GET') {
                 $this->describe[$value]['value'] = $_GET[$value];
