@@ -193,7 +193,7 @@ abstract class  AbstractMethod
         }
         $scriptName = $_SERVER["SCRIPT_NAME"];
         if (Api::$NO_SCRIPT_NAME) {
-            $scriptName = "";
+            $scriptName = dirname($scriptName);
         }
         $this->href = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $port . $scriptName;
         $this->href .= '/' . Api::$APIBASEROUTE . '/' . $methodName . $this->getRoute();
