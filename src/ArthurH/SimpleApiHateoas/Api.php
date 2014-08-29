@@ -56,7 +56,13 @@ class Api
                 if ($methodRequest != 'GET' && $methodRequest != 'POST' && $methodRequest != 'PUT' && $methodRequest != 'DELETE') {
                     $methodRequest = 'GET';
                 }
-                $r->addRoute($methodRequest, '/' . $apiBaseRoute . '/' . $methodName . $method->getRoute(), $method);
+                if (!is_array($method->getRoute())) {
+                    $r->addRoute($methodRequest, '/' . $apiBaseRoute . '/' . $methodName . $method->getRoute(), $method);
+                    continue;
+                }
+                foreach ($method->getRoute() as $route) {
+                    $r->addRoute($methodRequest, '/' . $apiBaseRoute . '/' . $methodName . $route, $method);
+                }
             }
 
         });
@@ -192,7 +198,7 @@ class Api
             return;
         }
         $route = $result['Route'];
-        $method->setRoute($route->get(0));
+        $method->setRoute(explode('|', $route->get(0)));
     }
 
     public function getDescribeAnnotation($method, $result)
