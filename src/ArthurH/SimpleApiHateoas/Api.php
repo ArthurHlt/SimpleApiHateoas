@@ -26,6 +26,7 @@ class Api
     public static $ERROR_VALIDATION = 1;
     public static $ERROR_SERVER = 0;
     public static $ERROR_INVALID_REQUEST = 2;
+    public static $NO_SCRIPT_NAME = false;
     private $methods;
     private $links;
 
@@ -85,6 +86,18 @@ class Api
 
     }
 
+    public function setRequestScheme()
+    {
+        if (!empty($_SERVER["REQUEST_SCHEME"])) {
+            return;
+        }
+        if (!empty($_SERVER["HTTPS"])) {
+            $_SERVER["REQUEST_SCHEME"] = 'https';
+        } else {
+            $_SERVER["REQUEST_SCHEME"] = 'http';
+        }
+    }
+
     public static function populatePutOrDeleteRequest()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
@@ -96,16 +109,7 @@ class Api
             Api::$_DELETE = $postVars;
         }
     }
-    public function setRequestScheme(){
-        if(!empty($_SERVER["REQUEST_SCHEME"])){
-            return;
-        }
-        if(!empty($_SERVER["HTTPS"])){
-            $_SERVER["REQUEST_SCHEME"] = 'https';
-        }else{
-            $_SERVER["REQUEST_SCHEME"] = 'http';
-        }
-    }
+
     public static function format($content, $links = null)
     {
         if ($content === null) {
@@ -217,6 +221,13 @@ class Api
     {
         $this->methods[$methodName] = $method;
         $this->getAnnotations($method);
+    }
+
+    public function setNoScriptName($noScriptName)
+    {
+        if ($noScriptName) {
+            Api::$NO_SCRIPT_NAME = true;
+        }
     }
 
     /**

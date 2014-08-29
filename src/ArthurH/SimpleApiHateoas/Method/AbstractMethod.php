@@ -187,10 +187,15 @@ abstract class  AbstractMethod
      */
     public function loadHref($values, $methodName)
     {
+        $port = null;
         if ($_SERVER['SERVER_PORT'] != 80) {
             $port = ':' . $_SERVER['SERVER_PORT'];
         }
-        $this->href = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $port . $_SERVER["SCRIPT_NAME"];
+        $scriptName = $_SERVER["SCRIPT_NAME"];
+        if (Api::$NO_SCRIPT_NAME) {
+            $scriptName = "";
+        }
+        $this->href = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["SERVER_NAME"] . $port . $scriptName;
         $this->href .= '/' . Api::$APIBASEROUTE . '/' . $methodName . $this->getRoute();
         $gets = null;
         if ($values === null) {
